@@ -4,8 +4,6 @@
 !pip install git+https://github.com/huggingface/transformers.git
 !git clone https://github.com/huggingface/transformers.git
 
-!git clone https://github.com/AliOsm/AI-SOCO-Experiments.git
-
 !python transformers/examples/xla_spawn.py --num_cores 8 \
 	transformers/examples/language-modeling/run_language_modeling.py \
     --output_dir=output \

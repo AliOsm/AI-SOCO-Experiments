@@ -42,15 +42,19 @@ if __name__ == '__main__':
     model = ClassificationModel(
     	'roberta',
     	os.path.join(args.models_dir, args.model_name),
+        num_labels=1000,
     	args={
 	    	'train_batch_size': 1,
 	    	'eval_batch_size': 1,
 	    	'num_train_epochs': 10,
-	    	'evaluate_during_training': True,
-	    	'evaluate_during_training_steps': 2000,
-	    	'save_steps': 1000000,
+	    	'evaluate_during_training': False,
+	    	'save_steps': 100000000,
 	    	'save_model_every_epoch': False,
-	    	'sliding_window': True
+	    	'sliding_window': True,
+            'fp16': False,
+            'max_seq_length': 512,
+            'logging_steps': 100000000,
+            
 	    }
     )
 

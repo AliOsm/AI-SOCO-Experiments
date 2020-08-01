@@ -21,4 +21,5 @@ python transformers/examples/xla_spawn.py --num_cores 8 \
     --warmup_steps=500 \
     --save_steps=2500 \
     --save_total_limit=3 \
-    --eval_steps=2500
+    --eval_steps=2500 \
+    --mlm

@@ -19,10 +19,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     train_csv = load_labels(args.data_dir, 'train')
+    random.shuffle(train_csv)
     train_labels, train_ids = zip(*train_csv)
     train_labels = list(map(int, train_labels))
     train_ids = list(map(int, train_ids))
-    random.shuffle(train_csv)
 
     dev_csv = load_labels(args.data_dir, 'dev')
     dev_labels, dev_ids = zip(*dev_csv)
@@ -44,18 +44,20 @@ if __name__ == '__main__':
     	os.path.join(args.models_dir, args.model_name),
         num_labels=1000,
     	args={
-	    	'train_batch_size': 1,
-	    	'eval_batch_size': 1,
-	    	'num_train_epochs': 10,
-	    	'evaluate_during_training': False,
-	    	'save_steps': 100000000,
-	    	'save_model_every_epoch': False,
-	    	'sliding_window': True,
             'fp16': False,
             'max_seq_length': 512,
-            'logging_steps': 100000000,
-            
-	    }
+            'train_batch_size': 32,
+            'eval_batch_size': 32,
+            'num_train_epochs': 10,
+            'evaluate_during_training': True,
+            'evaluate_during_training_steps': True,
+            'save_eval_checkpoints': True,
+            'logging_steps': 2500,
+            'save_steps': 1_000_000_000,
+            'save_model_every_epoch': False,
+            'overwrite_output_dir': True,
+            'sliding_window': True
+        }
     )
 
     model.train_model(train_df, eval_df=dev_df)

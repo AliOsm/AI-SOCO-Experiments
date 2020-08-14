@@ -13,9 +13,9 @@ from utils import load_labels, load_data
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--model_name', required=True)
     parser.add_argument('--data_dir', default='data_dir')
     parser.add_argument('--models_dir', default='models_dir')
-    parser.add_argument('--model_name', default='roberta-small-code-v1')
     args = parser.parse_args()
 
     train_csv = load_labels(args.data_dir, 'train')
@@ -50,14 +50,12 @@ if __name__ == '__main__':
             'eval_batch_size': 32,
             'num_train_epochs': 10,
             'evaluate_during_training': True,
-            'evaluate_during_training_steps': 3000,
-            'evaluate_during_training_verbose': True,
+            'evaluate_during_training_steps': 1_000_000_000,
             'save_eval_checkpoints': True,
             'logging_steps': 3000,
             'save_steps': 1_000_000_000,
             'save_model_every_epoch': False,
-            'overwrite_output_dir': True,
-            'sliding_window': True
+            'overwrite_output_dir': True
         }
     )
 

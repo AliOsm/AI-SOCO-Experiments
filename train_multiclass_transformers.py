@@ -29,6 +29,11 @@ if __name__ == '__main__':
     dev_labels = list(map(int, dev_labels))
     dev_ids = list(map(int, dev_ids))
 
+    test_csv = load_labels(args.data_dir, 'test')
+    test_labels, test_ids = zip(*test_csv)
+    test_labels = list(map(int, test_labels))
+    test_ids = list(map(int, test_ids))
+
     train_data = load_data(args.data_dir, 'train', train_csv)
     for i in range(len(train_data)):
     	train_data[i] = train_data[i].replace('    ', '\t')
@@ -38,6 +43,11 @@ if __name__ == '__main__':
     for i in range(len(dev_data)):
     	dev_data[i] = dev_data[i].replace('    ', '\t')
     dev_df = pd.DataFrame(zip(dev_data, dev_labels))
+
+    test_data = load_data(args.data_dir, 'test', test_csv)
+    for i in range(len(test_data)):
+    	test_data[i] = test_data[i].replace('    ', '\t')
+    test_df = pd.DataFrame(zip(test_data, test_labels))
 
     model = ClassificationModel(
     	'roberta',
@@ -62,4 +72,6 @@ if __name__ == '__main__':
     model.train_model(train_df, eval_df=dev_df)
 
     result, model_outputs, wrong_predictions = model.eval_model(dev_df, acc=sklearn.metrics.accuracy_score)
+    print(result)
+    result, model_outputs, wrong_predictions = model.eval_model(test_df, acc=sklearn.metrics.accuracy_score)
     print(result)
